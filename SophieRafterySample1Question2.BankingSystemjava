@@ -1,0 +1,196 @@
+/*
+Name: Sophie Raftery
+Student ID: g00477839
+Date: 12/11/2025
+*/
+
+import java.util.Scanner;
+public class SophieRafterySample1Question2
+{
+    public static void main(String[] args)
+    {
+        Scanner keyboard = new Scanner(System.in);
+
+        double balance = 1250.00;  // starting balance
+        double totalDeposits = 0;
+        double totalWithdrawals = 0;
+        int totalTransactions = 0;
+
+        String lastTransactionType = "None";
+        double lastTransactionAmount = 0;
+        double lastTransactionBalance = balance;
+
+        int choice;
+
+        System.out.println("========================================");
+        System.out.println("        SIMPLE BANKING SYSTEM");
+        System.out.println("Welcome to your banking portal!");
+
+        do
+        {
+            // Display main menu
+            System.out.println("\nMAIN MENU:");
+            System.out.println("1. Check Balance");
+            System.out.println("2. Deposit Money");
+            System.out.println("3. Withdraw Money");
+            System.out.println("4. View Transaction History");
+            System.out.println("5. Account Summary");
+            System.out.println("6. Exit");
+
+            System.out.print("\nEnter your choice (1-6): ");
+            choice = keyboard.nextInt();
+
+            // Input validation for menu choice
+            while (choice < 1 || choice > 6)
+            {
+                System.out.print("Invalid choice! Please enter a number between 1 and 6: ");
+                choice = keyboard.nextInt();
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    // Check Balance
+                    System.out.println("\n========================================");
+                    System.out.println("         ACCOUNT BALANCE");
+                    System.out.printf("Current Balance: %.2f%n", balance);
+
+                    break;
+
+                case 2:
+                    // Deposit Money
+                    System.out.println("\n========================================");
+                    System.out.println("         DEPOSIT MONEY");
+                    System.out.print("Enter deposit amount: ");
+                    double depositAmount = keyboard.nextDouble();
+
+                    // Validate deposit amount
+                    while (depositAmount <= 0 || depositAmount > 10000)
+                    {
+                        System.out.print("Invalid amount! Enter a value between 0.01 and 10,000.00: ");
+                        depositAmount = keyboard.nextDouble();
+                    }
+
+                    balance += depositAmount;
+                    totalDeposits += depositAmount;
+                    totalTransactions++;
+
+                    lastTransactionType = "Deposit";
+                    lastTransactionAmount = depositAmount;
+                    lastTransactionBalance = balance;
+
+                    System.out.println("\nDeposit successful!");
+                    System.out.printf("Amount deposited: %.2f%n", depositAmount);
+                    System.out.printf("New balance: %.2f%n", balance);
+                    pause(keyboard);
+                    break;
+
+                case 3:
+                    // Withdraw Money
+                    System.out.println("\n========================================");
+                    System.out.println("        WITHDRAW MONEY");
+                    System.out.print("Enter withdrawal amount: ");
+                    double withdrawalAmount = keyboard.nextDouble();
+
+                    // Validate withdrawal amount
+                    while (withdrawalAmount <= 0 || withdrawalAmount > balance)
+                    {
+                        if (withdrawalAmount > balance)
+                        {
+                            System.out.print("Insufficient funds! Enter a smaller amount: ");
+                        }
+                        else
+                        {
+                            System.out.print("Invalid amount! Enter a positive value: ");
+                        }
+                        withdrawalAmount = keyboard.nextDouble();
+                    }
+
+                    double fee = 0.0;
+                    if (withdrawalAmount > 100)
+                    {
+                        fee = 2.50;
+                    }
+
+                    double totalCharge = withdrawalAmount + fee;
+                    balance -= totalCharge;
+                    totalWithdrawals += withdrawalAmount;
+                    totalTransactions++;
+
+                    lastTransactionType = "Withdrawal";
+                    lastTransactionAmount = totalCharge;
+                    lastTransactionBalance = balance;
+
+                    System.out.println("\nWithdrawal successful!");
+                    System.out.printf("Amount withdrawn: %.2f%n", withdrawalAmount);
+                    System.out.printf("Transaction fee: %.2f%n", fee);
+                    System.out.printf("Total charged: %.2f%n", totalCharge);
+                    System.out.printf("New balance: %.2f%n", balance);
+                    pause(keyboard);
+                    break;
+
+                case 4:
+                    // View Transaction History
+                    System.out.println("\n========================================");
+                    System.out.println("     TRANSACTION HISTORY");
+
+                    if (totalTransactions == 0)
+                    {
+                        System.out.println("No transactions have been made yet.");
+                    }
+                    else
+                    {
+                        System.out.println("Most Recent Transaction:");
+                        System.out.printf("Type: %s%n", lastTransactionType);
+                        System.out.printf("Amount: %.2f%n", lastTransactionAmount);
+                        System.out.printf("Resulting Balance: %.2f%n", lastTransactionBalance);
+                        System.out.printf("Total Transactions: %d%n", totalTransactions);
+                    }
+
+                    pause(keyboard);
+                    break;
+
+                case 5:
+                    // Account Summary
+                    System.out.println("\n========================================");
+                    System.out.println("        ACCOUNT SUMMARY");
+                    System.out.printf("Current Balance: %.2f%n", balance);
+                    System.out.printf("Total Deposited: %.2f%n", totalDeposits);
+                    System.out.printf("Total Withdrawn: %.2f%n", totalWithdrawals);
+                    System.out.printf("Total Transactions: %d%n", totalTransactions);
+
+                    if (balance < 100)
+                    {
+                        System.out.println("Status: Low Balance Warning!");
+                    }
+                    else
+                    {
+                        System.out.println("Status: Account in Good Standing.");
+                    }
+
+                    pause(keyboard);
+                    break;
+
+                case 6:
+                    // Exit
+                    System.out.println("\n========================================");
+                    System.out.println("Thank you for using the Banking System!");
+                    System.out.println("Have a great day!");
+                    System.out.println("========================================");
+                    break;
+            }
+
+        }
+        while (choice != 6);
+
+        keyboard.close();
+    }
+
+    // Helper method to pause program and wait for user to press Enter
+    public static void pause(Scanner keyboard)
+    {
+        System.out.print("\nPress Enter to continue...");
+        keyboard.nextLine(); // consume leftover newline
+        keyboard.nextLine(); // wait for Enter
+    }
+}
